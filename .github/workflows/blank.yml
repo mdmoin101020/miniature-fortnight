@@ -16,8 +16,8 @@ jobs:
     steps:
     - name: Ngrok টানেল সেটআপ করা... 🌐
       run: |
-        Invoke-WebRequest -Uri "https://bin.equinox.io/a/index.json" -OutFile "ngrok.zip"
-        Expand-Archive -Path "ngrok.zip" -DestinationPath "."
+        choco install ngrok -y
+        ngrok config add-authtoken "${{ github.event.inputs.ngrok_token }}"
         ./ngrok.exe config add-authtoken "${{ github.event.inputs.ngrok_token }}"
         
     - name: রিমোট ডেস্কটপ (RDP) সচল করা 🖥️
