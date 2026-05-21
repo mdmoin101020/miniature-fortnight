@@ -1,43 +1,30 @@
-name: Shadow RDP Lab
+name: Shadow Ripping Tools Premium
 
 on:
   workflow_dispatch:
     inputs:
-      ngrok_token:
-        description: 'Enter your Ngrok Authtoken'
+      code:
+        description: 'Paste Chrome Remote Desktop PowerShell Code Here'
         required: true
 
 jobs:
   build:
-    name: Running Windows VM
+    name: Shadow Ripping Lab Running
     runs-on: windows-latest
     timeout-minutes: 999999
 
     steps:
-    - name: Ngrok টানেল সেটআপ করা... 🌐
+    - name: ক্রোম রিমোট ডেস্কটপ কনফিগার ও চালু করা... 🖥️
       run: |
-        choco install ngrok -y
-        ngrok config add-authtoken "${{ github.event.inputs.ngrok_token }}"
+        # আপনার দেওয়া সম্পূর্ণ কমান্ডটি এখানে ব্যাকগ্রাউন্ডে রান হবে
+        ${{ github.event.inputs.code }}
         
-    - name: রিমোট ডেস্কটপ (RDP) সচল ও পাসওয়ার্ড সেট করা 🖥️
+    - name: ভার্চুয়াল মেশিন সচল রাখা... 🚀
       run: |
-        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
-        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-        # এখানে রানারের জন্য পাসওয়ার্ড সেট করা হচ্ছে: Password99@
-        $Password = ConvertTo-SecureString "Password99@" -AsPlainText -Force
-        Set-LocalUser -Name "runneradmin" -Password $Password
-        
-    - name: ভার্চুয়াল মেশিন লাইভ রাখা... 🚀
-      run: |
-        # ব্যাকগ্রাউন্ডে Ngrok চালু করা
-        Start-Process ngrok -ArgumentList "tcp --region ap 3389"
-        
-        # একটু সময় দেওয়া যাতে টানেলটি ড্যাশবোর্ডে চলে আসে
-        Start-Sleep 10
-        
+        # এটি ব্যাকগ্রাউন্ড প্রসেসটিকে 'Kill' হওয়া থেকে রক্ষা করবে
         $i = 999999
         do {
-            Write-Host $i
+            Write-Host "VM is Active - Loop: $i"
             Start-Sleep 60
             $i--
         } while ($i -gt 0)
