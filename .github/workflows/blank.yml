@@ -16,7 +16,7 @@ jobs:
     steps:
     - name: Ngrok টানেল সেটআপ করা... 🌐
       run: |
-        Invoke-WebRequest -Uri "https://bin.equinox.io/c/bNyj1mQcaA6/ngrok-v3-stable-windows-amd64.zip" -OutFile "ngrok.zip"
+        Invoke-WebRequest -Uri "https://bin.equinox.io/a/index.json" -OutFile "ngrok.zip"
         Expand-Archive -Path "ngrok.zip" -DestinationPath "."
         ./ngrok.exe config add-authtoken "${{ github.event.inputs.ngrok_token }}"
         
