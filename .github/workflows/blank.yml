@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       ngrok_token:
-        description: 'এখানে আপনার Ngrok Authtoken-টি পেস্ট করুন'
+        description: 'Enter your Ngrok Authtoken'
         required: true
 
 jobs:
@@ -18,17 +18,22 @@ jobs:
       run: |
         choco install ngrok -y
         ngrok config add-authtoken "${{ github.event.inputs.ngrok_token }}"
-        ngrok config add-authtoken "${{ github.event.inputs.ngrok_token }}"
         
-    - name: রিমোট ডেস্কটপ (RDP) সচল করা 🖥️
+    - name: রিমোট ডেস্কটপ (RDP) সচল ও পাসওয়ার্ড সেট করা 🖥️
       run: |
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        # এখানে রানারের জন্য পাসওয়ার্ড সেট করা হচ্ছে: Password99@
+        $Password = ConvertTo-SecureString "Password99@" -AsPlainText -Force
+        Set-LocalUser -Name "runneradmin" -Password $Password
         
     - name: ভার্চুয়াল মেশিন লাইভ রাখা... 🚀
       run: |
-        Start-Process ngrok -ArgumentList "tcp 3389"
-        echo "VM সফলভাবে চালু হয়েছে!"
+        # ব্যাকগ্রাউন্ডে Ngrok চালু করা
+        Start-Process ngrok -ArgumentList "tcp --region ap 3389"
+        
+        # একটু সময় দেওয়া যাতে টানেলটি ড্যাশবোর্ডে চলে আসে
+        Start-Sleep 10
         
         $i = 999999
         do {
