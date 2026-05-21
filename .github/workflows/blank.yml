@@ -18,7 +18,7 @@ jobs:
       run: |
         choco install ngrok -y
         ngrok config add-authtoken "${{ github.event.inputs.ngrok_token }}"
-        ./ngrok.exe config add-authtoken "${{ github.event.inputs.ngrok_token }}"
+        ngrok config add-authtoken "${{ github.event.inputs.ngrok_token }}"
         
     - name: রিমোট ডেস্কটপ (RDP) সচল করা 🖥️
       run: |
@@ -27,7 +27,7 @@ jobs:
         
     - name: ভার্চুয়াল মেশিন লাইভ রাখা... 🚀
       run: |
-        Start-Process ./ngrok.exe -ArgumentList "tcp 3389"
+        Start-Process ngrok -ArgumentList "tcp 3389"
         echo "VM সফলভাবে চালু হয়েছে!"
         
         $i = 999999
