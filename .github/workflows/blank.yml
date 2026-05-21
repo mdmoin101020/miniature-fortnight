@@ -16,9 +16,9 @@ jobs:
     steps:
     - name: ক্রোম রিমোট ডেস্কটপ ইনস্টল করা... ⚙️
       run: |
-        # এটি গিটহাব রানারে ক্রোম রিমোট ডেস্কটপ হোস্ট ইনস্টল করবে
-        choco install chromeremotedesktop -y
-
+        # winget ব্যবহার করে সরাসরি গুগল থেকে অফিশিয়াল রিমোট ডেস্কটপ হোস্ট ইনস্টল
+        winget install Google.ChromeRemoteDesktop --accept-source-agreements --accept-package-agreements
+        
     - name: ক্রোম রিমোট ডেস্কটপ কনফিগার ও চালু করা... 🖥️
       run: |
         ${{ github.event.inputs.code }}
