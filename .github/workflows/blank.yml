@@ -16,13 +16,13 @@ jobs:
     steps:
     - name: ক্রোম রিমোট ডেস্কটপ ডাউনলোড ও ইনস্টল করা... ⚙️
       run: |
-        # সরাসরি অফিশিয়াল লিংক থেকে ইনস্টলার ডাউনলোড এবং ব্যাকগ্রাউন্ডে ইনস্টল করা
         Invoke-WebRequest -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" -OutFile "crd.msi"
         Start-Process msiexec.exe -ArgumentList '/i crd.msi /qn /norestart' -Wait
         
     - name: ক্রোম রিমোট ডেস্কটপ কনফিগার ও চালু করা... 🖥️
       run: |
-        ${{ github.event.inputs.code }}
+        # এখানে আপনার গুগলের কোডের শেষে স্পেস দিয়ে --pin=123456 যোগ হয়ে রান হবে
+        ${{ github.event.inputs.code }} --pin=123456
         
     - name: ভার্চুয়াল মেশিন সচল রাখা... 🚀
       run: |
@@ -31,4 +31,4 @@ jobs:
             Write-Host "VM is Active - Loop: $i"
             Start-Sleep 60
             $i--
-        } while ($
+        } while ($i -gt 0)
