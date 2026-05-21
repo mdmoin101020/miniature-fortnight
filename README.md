@@ -1,1 +1,38 @@
-# miniature-fortnight
+name: Shadow RDP Lab
+
+on:
+  workflow_dispatch:
+    inputs:
+      ngrok_token:
+        description: 'এখানে আপনার Ngrok Authtoken-টি পেস্ট করুন'
+        required: true
+
+jobs:
+  build:
+    name: Running Windows VM
+    runs-on: windows-latest
+    timeout-minutes: 999999
+
+    steps:
+    - name: Ngrok টানেল সেটআপ করা... 🌐
+      run: |
+        Invoke-WebRequest -Uri "https://bin.equinox.io/c/bNyj1mQcaA6/ngrok-v3-stable-windows-amd64.zip" -OutFile "ngrok.zip"
+        Expand-Archive -Path "ngrok.zip" -DestinationPath "."
+        ./ngrok.exe config add-authtoken "${{ github.event.inputs.ngrok_token }}"
+        
+    - name: রিমোট ডেস্কটপ (RDP) সচল করা 🖥️
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        
+    - name: ভার্চুয়াল মেশিন লাইভ রাখা... 🚀
+      run: |
+        Start-Process ./ngrok.exe -ArgumentList "tcp 3389"
+        echo "VM সফলভাবে চালু হয়েছে!"
+        
+        $i = 999999
+        do {
+            Write-Host $i
+            Start-Sleep 60
+            $i--
+        } while ($i -gt 0)
