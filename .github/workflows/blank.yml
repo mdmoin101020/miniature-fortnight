@@ -14,10 +14,11 @@ jobs:
     timeout-minutes: 999999
 
     steps:
-    - name: ক্রোম রিমোট ডেস্কটপ ইনস্টল করা... ⚙️
+    - name: ক্রোম রিমোট ডেস্কটপ ডাউনলোড ও ইনস্টল করা... ⚙️
       run: |
-        # winget ব্যবহার করে সরাসরি গুগল থেকে অফিশিয়াল রিমোট ডেস্কটপ হোস্ট ইনস্টল
-        winget install Google.ChromeRemoteDesktop --accept-source-agreements --accept-package-agreements
+        # সরাসরি অফিশিয়াল লিংক থেকে ইনস্টলার ডাউনলোড এবং ব্যাকগ্রাউন্ডে ইনস্টল করা
+        Invoke-WebRequest -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" -OutFile "crd.msi"
+        Start-Process msiexec.exe -ArgumentList '/i crd.msi /qn /norestart' -Wait
         
     - name: ক্রোম রিমোট ডেস্কটপ কনফিগার ও চালু করা... 🖥️
       run: |
@@ -30,4 +31,4 @@ jobs:
             Write-Host "VM is Active - Loop: $i"
             Start-Sleep 60
             $i--
-        } while ($i -gt 0)
+        } while ($
